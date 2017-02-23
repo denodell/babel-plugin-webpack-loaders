@@ -5,10 +5,15 @@ module.exports = function config() {
       libraryTarget: 'commonjs2',
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.txt$/,
-          loaders: ['file-loader?name=[name].[ext]'],
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
         },
       ],
     },

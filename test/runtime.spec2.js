@@ -13,7 +13,7 @@ describe('runtime test with webpack@2', () => {
   });
 
   it('must support multiple loaders specified in require', () => {
-    const text = require('null!file!./assets/file.txt');
+    const text = require('null!file-loader!./assets/file.txt');
     expect(text).toEqual(null);
   });
 

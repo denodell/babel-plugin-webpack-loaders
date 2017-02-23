@@ -4,10 +4,10 @@ module.exports = {
     libraryTarget: 'commonjs2',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: ['babel-loader'],
+        use: ['babel-loader'],
       },
     ],
   },

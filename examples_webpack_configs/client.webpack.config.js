@@ -9,12 +9,12 @@ module.exports = Object.assign(
       path.join(__dirname, '../examples/myCoolLibrary/myCoolLibrary.js'),
     ],
     module: {
-      loaders: [].concat(
-        libConfig.module.loaders,
+      rules: [].concat(
+        libConfig.module.rules,
         [
           {
             test: /\.js$/,
-            loaders: ['babel'],
+            use: ['babel-loader'],
             include: [
               path.join(__dirname, '../examples'),
             ],

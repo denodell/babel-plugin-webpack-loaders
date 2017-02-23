@@ -12,41 +12,66 @@ module.exports = {
     publicPath: '/assets/',
   },
   plugins: [
-    new ExtractTextPlugin(path.parse(process.argv[2]).name + '.css'),
+    new ExtractTextPlugin(`${path.parse(process.argv[2]).name}.css`),
   ],
   postcss: [
     autoprefixer({ browsers: ['last 2 versions'] }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.sass$/,
-        loader: ExtractTextPlugin.extract(
+        use: ExtractTextPlugin.extract(
           'style-loader',
           [
-            'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]--[hash:base64:5]',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 2,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
+            },
             'postcss-loader',
-            `sass-loader?precision=10&indentedSyntax=sass`,
+            {
+              loader: 'sass-loader',
+              options: {
+                precision: 10,
+                indentedSyntax: 'sass',
+              },
+            },
           ]
         ),
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          [
-            'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]--[hash:base64:5]',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 2,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
+            },
             'postcss-loader',
-          ]
-        ),
+          ],
+        }),
       },
       {
         test: /\.png$/,
-        loaders: ['url-loader?limit=7000'],
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 7000,
+          },
+        },
       },
       {
         test: /\.txt$/,
-        loaders: ['file-loader'],
+        use: ['file-loader'],
       },
     ],
   },

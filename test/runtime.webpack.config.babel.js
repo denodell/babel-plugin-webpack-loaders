@@ -6,12 +6,19 @@ export default {
     libraryTarget: 'commonjs2',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loaders: [
+        use: [
           'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]',
+            },
+          },
           'postcss-loader',
         ],
         include: [

@@ -26,12 +26,19 @@ module.exports = {
     ],
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loaders: [
+        use: [
           'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]',
+            },
+          },
           'postcss-loader',
         ],
         include: [
@@ -40,11 +47,24 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        loaders: [
+        use: [
           'style-loader',
-          'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 2,
+              localIdentName: '[name]__[local]',
+            },
+          },
           'postcss-loader',
-          'sass-loader?precision=10&indentedSyntax=sass',
+          {
+            loader: 'sass-loader',
+            options: {
+              precision: 10,
+              indentedSyntax: 'sass',
+            },
+          },
         ],
         include: [
           path.join(__dirname, 'assets/withoutExtractText'),
@@ -53,10 +73,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: [
-            'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]',
+              },
+            },
             'postcss-loader',
           ],
         }),
@@ -67,23 +94,47 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: [
-            'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 2,
+                localIdentName: '[name]__[local]',
+              },
+            },
             'postcss-loader',
-            'sass-loader?precision=10&indentedSyntax=sass',
+            {
+              loader: 'sass-loader',
+              options: {
+                precision: 10,
+                indentedSyntax: 'sass',
+              },
+            },
           ],
         }),
         include: [path.join(__dirname, 'assets/withExtractText')],
       },
       {
         test: /\.bin$/,
-        loaders: ['url-loader?limit=100&name=[name].[ext]'],
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 100,
+            name: '[name].[ext]',
+          },
+        },
       },
       {
         test: /\.txt$/,
-        loaders: ['file-loader?name=[name].[ext]'],
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
       },
     ],
   },
