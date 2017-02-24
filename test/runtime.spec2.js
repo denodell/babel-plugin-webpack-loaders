@@ -3,22 +3,22 @@ import expect from 'expect';
 
 describe('runtime test with webpack@2', () => {
   it('file-loader should work', () => {
-    const text = require('./assets/file.txt');
+    const text = require('file-loader!./assets/file.txt');
     expect(text).toEqual('file.txt');
   });
 
   it('must support single loader specified in require', () => {
-    const text = require('null!./assets/file.txt');
+    const text = require('null-loader!./assets/file.txt');
     expect(text).toEqual(null);
   });
 
   it('must support multiple loaders specified in require', () => {
-    const text = require('null!file-loader!./assets/file.txt');
+    const text = require('null-loader!file-loader!./assets/file.txt');
     expect(text).toEqual(null);
   });
 
   it('must support overriding loaders specified in require', () => {
-    const text = require('!!null!./assets/file.txt');
+    const text = require('!!null-loader!./assets/file.txt');
     expect(text).toEqual(null);
   });
 });

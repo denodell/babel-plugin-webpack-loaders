@@ -20,8 +20,8 @@ export default ({ path, configPath, config, verbose }) => {
   const webPackStdOut = execSync([
     'node', // for windows support
     webPackPath,
-    configPath,
-//    path,
+    // configPath,
+    path,
     outPath,
     '--bail',
   ].join(' ')
